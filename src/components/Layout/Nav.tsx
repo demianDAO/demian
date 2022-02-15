@@ -4,8 +4,8 @@ import IdentifierLabelWithButtons from '../Buttons/IdentifierLabelWithButtons';
 import LoginButton from '../Buttons/LoginButton';
 
 const navigation = [
-  { name: 'Demo', href: '/demo' },
   { name: 'Home', href: '/home' },
+  { name: 'About', href: '/about' },
 ];
 
 export default function Nav() {
@@ -14,10 +14,10 @@ export default function Nav() {
   } = useGlobalContext();
 
   return (
-    <div className="bg-gray-800 pt-6">
+    <div className="mt-5">
       <nav className="relative max-w-7xl mx-auto flex items-center justify-between px-4 sm:px-6" aria-label="Global">
         <div className="flex items-center flex-1">
-          <div className="space-x-8 flex ml-10">
+          <div className="space-x-8 flex ml-5">
             {navigation.map(item => (
               <a key={item.name} href={item.href} className="text-base font-medium text-white hover:text-gray-300">
                 {item.name}

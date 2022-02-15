@@ -1,8 +1,8 @@
+import '@material-tailwind/react/tailwind.css';
 import React from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import style from './App.module.css';
 import { useGlobalContext } from './Hook/Store/Store';
-import Demo from './pages/Demo/Demo';
+import About from './pages/Demo/Demo';
 import Home from './pages/Home/Home';
 
 function App() {
@@ -13,15 +13,14 @@ function App() {
   console.log(isAuthed, 89898998);
 
   return (
-    <div className={style.App}>
+    <div className="bg-primary">
       <BrowserRouter>
         <Routes>
           <Route path="" element={<Home />} />
           <Route path="/home" element={<Home />} />
-          <Route path="/demo" element={<Demo />} />
+          <Route path="/about" element={<About />} />
         </Routes>
       </BrowserRouter>
-      ,
     </div>
   );
 }

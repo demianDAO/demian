@@ -48,7 +48,7 @@ declare global {
 const WHITELIST = [].filter(Boolean);
 
 const PLUG_ARGS = {
-  whitelist: WHITELIST,
+  whitelist: ['ryjl3-tyaaa-aaaaa-aaaba-cai'],
   host: HOST,
 };
 
@@ -177,9 +177,15 @@ export default function LoginButton() {
   return (
     <>
       <button
-        className="px-4 py-2 rounded-sm bg-theme-dark text-white opacity-70 hover:opacity-100 transition-opacity"
+        className="flex px-4 py-2 items-center  rounded-sm bg-theme-dark text-white opacity-70 hover:opacity-90 transition-opacity text-xl"
         onClick={isAuthed ? handleLogout : openModal}>
-        {isAuthed ? 'Logout' : 'login'}
+        <img
+          src={dfinityLogo}
+          className="bg-theme-dark mr-1 opacity-100 hover:opacity-100 transition-opacity"
+          width="30px"
+          height={30}
+        />
+        {isAuthed ? 'Logout' : 'Log in'}
       </button>
       <Modal isOpen={isOpen} openModal={openModal} closeModal={closeModal} title="Login" className="max-w-xs w-full">
         <div className="flex flex-col items-stretch gap-4 py-4">
