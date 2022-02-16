@@ -55,9 +55,11 @@ export default function Header() {
   const getBalance = async () => {
     const ledger = LedgerCanister.create();
 
-    const accountIdentifier = AccountIdentifier.fromHex(
-      'efa01544f509c56dd85449edf2381244a48fad1ede5183836229c00ab00d52df'
-    );
+    const payAddress = localStorage.getItem('address')
+      ? localStorage.getItem('address')
+      : 'efa01544f509c56dd85449edf2381244a48fad1ede5183836229c00ab00d52df';
+
+    const accountIdentifier = AccountIdentifier.fromHex(payAddress);
 
     const balance = await ledger.accountBalance({ accountIdentifier });
 
@@ -67,7 +69,7 @@ export default function Header() {
   };
 
   const confirmPay = async money => {
-    console.log(money);
+    console.log(money * 100000000, 222);
 
     if (!isAuthed) {
       message.error(t('public.notLogin'), 3000);
@@ -102,7 +104,7 @@ export default function Header() {
 
                 const res = await ledger.transfer({
                   to: AccountIdentifier.fromHex('25e56160d21a451b2db18525f99df9c85a57cbf96386c0922aed47801e697884'),
-                  amount: ICP.fromE8s(BigInt(10000)),
+                  amount: ICP.fromE8s(BigInt(money * 100000000)),
                 });
 
                 if (Number(res) > 0) {
@@ -125,7 +127,7 @@ export default function Header() {
 
               const res = await ledger.transfer({
                 to: AccountIdentifier.fromHex('25e56160d21a451b2db18525f99df9c85a57cbf96386c0922aed47801e697884'),
-                amount: ICP.fromE8s(BigInt(10000)),
+                amount: ICP.fromE8s(BigInt(money * 100000000)),
               });
 
               if (Number(res) > 0) {

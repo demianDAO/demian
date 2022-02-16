@@ -6,6 +6,7 @@ import PlugConnect from '@psychedelic/plug-connect';
 import { StoicIdentity } from 'ic-stoic-identity';
 import React, { useEffect, useState } from 'react';
 import { useGlobalContext, useLoginModal, useSetAgent } from '../../Hook/Store/Store';
+import { principalToAccountIdentifier } from '../../lib/account';
 import { HOST, IDENTITY_PROVIDER } from '../../lib/canisters';
 import { ONE_WEEK_NS } from '../../lib/constants';
 import Modal from '../Layout/Modal';
@@ -48,7 +49,7 @@ declare global {
 const WHITELIST = [].filter(Boolean);
 
 const PLUG_ARGS = {
-  whitelist: ['ryjl3-tyaaa-aaaaa-aaaba-cai'],
+  whitelist: ['ryjl3-tyaaa-aaaaa-aaaba-cai', 'cmiki-zqaaa-aaaag-aabca-cai'],
   host: HOST,
 };
 
@@ -97,6 +98,15 @@ export default function LoginButton() {
     }
     if (!window.ic.plug.agent) {
       await window.ic.plug.createAgent(PLUG_ARGS);
+    }
+
+    //address
+    const id = await window.ic.plug.agent._identity;
+
+    if (id) {
+      console.log(principalToAccountIdentifier(id.getPrincipal().toText(), 0));
+      const ads = principalToAccountIdentifier(id.getPrincipal().toText(), 0);
+      window.localStorage.setItem('address', ads);
     }
 
     setAgent({
@@ -151,6 +161,11 @@ export default function LoginButton() {
           case 'stoic':
             // stoic
             StoicIdentity.load().then(async identity => {
+              identity.accounts().then(res => {
+                const address = JSON.parse(res);
+                window.localStorage.setItem('address', address[0].address);
+              });
+
               if (identity !== false) {
                 //ID is a already connected wallet!
                 setAgent({

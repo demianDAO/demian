@@ -18,6 +18,7 @@
     "@psychedelic/plug-connect": "^0.1.4",
     "agent-pb": "github:ic-cubes/agent-pb",
     "buffer": "^6.0.3",
+    "buffer-crc32": "^0.2.13",
     "classnames": "^2.3.1",
     "cross-fetch": "^3.1.5",
     "events": "^3.3.0",
