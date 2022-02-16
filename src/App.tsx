@@ -2,7 +2,7 @@ import '@material-tailwind/react/tailwind.css';
 import React from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { useGlobalContext } from './Hook/Store/Store';
-import About from './pages/Demo/Demo';
+import About from './pages/About/About';
 import Home from './pages/Home/Home';
 
 function App() {
@@ -10,7 +10,7 @@ function App() {
     state: { isAuthed },
   } = useGlobalContext();
 
-  console.log(isAuthed, 89898998);
+  console.log(isAuthed, 'debug');
 
   return (
     <div className="bg-primary">

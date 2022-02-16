@@ -10,9 +10,11 @@ import ModalHeader from '@material-tailwind/react/ModalHeader';
 import fetch from 'cross-fetch';
 import { StoicIdentity } from 'ic-stoic-identity';
 import React, { useEffect, useState } from 'react';
+// the hook
+import { useTranslation } from 'react-i18next';
 import { message } from 'react-message-popup';
 import ClipLoader from 'react-spinners/ClipLoader';
-import { useGlobalContext, useSetAgent } from '../../Hook/Store/Store';
+import { useGlobalContext } from '../../Hook/Store/Store';
 import { HOST } from '../../lib/canisters';
 
 global.fetch = fetch;
@@ -29,17 +31,13 @@ export default function Header() {
     state: { isAuthed },
   } = useGlobalContext();
 
-  const setAgent = useSetAgent();
+  const { t } = useTranslation();
 
-  const [payStatus, setPayStatus] = React.useState('立即支付');
-
+  const [payStatus, setPayStatus] = React.useState(t('public.payNow'));
   const PLUG_ARGS = {
     whitelist: ['ryjl3-tyaaa-aaaaa-aaaba-cai'],
     host: HOST,
   };
-
-  console.log(isAuthed, 89898998);
-  console.log(setAgent, 744444);
 
   // Price
   const fetchPrice = async () => {
@@ -51,10 +49,9 @@ export default function Header() {
     const allPrice = 1000;
     const curPrice = (Math.floor((allPrice / data[0]['current_price']) * 10000) / 10000).toFixed(5);
     setcurPrice(curPrice);
-
-    console.log(data[0]['current_price'], 8888);
   };
 
+  // balance
   const getBalance = async () => {
     const ledger = LedgerCanister.create();
 
@@ -64,24 +61,22 @@ export default function Header() {
 
     const balance = await ledger.accountBalance({ accountIdentifier });
 
-    console.log(balance.toE8s(), 787887);
-
     const icp = Number(balance.toE8s()) / 100000000;
     setBalance(icp);
-    console.log(`Balance: ${icp}`);
+    // console.log(`Balance: ${icp}`);
   };
 
   const confirmPay = async money => {
     console.log(money);
 
     if (!isAuthed) {
-      message.error('请登录后操作', 3000);
+      message.error(t('public.notLogin'), 3000);
       setShowModal(false);
       return false;
     }
 
     if (ibalance < money) {
-      message.error('余额不足，请购买 ICP 后支付', 3000);
+      message.error(t('public.payNotBalance'), 3000);
       setShowModal(false);
       return false;
     }
@@ -94,27 +89,29 @@ export default function Header() {
         switch (l) {
           case 'II':
             // eslint-disable-next-line no-case-declarations
-            message.warn('II不支持支付，请更换登录方式进行支付', 3000);
+            message.warn(t('public.payWarn'), 3000);
             break;
           case 'stoic':
             // stoic
-            setPayStatus('支付中.....');
+            setPayStatus(t('public.payProcess'));
             StoicIdentity.load().then(async identity => {
-              console.log(identity, 78787878);
-
               if (identity !== false) {
                 //ID is a already connected wallet!
                 // identity
                 const ledger = LedgerCanister.create({ agent: new HttpAgent({ identity }) });
 
                 const res = await ledger.transfer({
-                  to: AccountIdentifier.fromHex('8a69d6fde456748625f4b19c711bf1826b566d78500aa9d3344e014862c0ee6f'),
+                  to: AccountIdentifier.fromHex('25e56160d21a451b2db18525f99df9c85a57cbf96386c0922aed47801e697884'),
                   amount: ICP.fromE8s(BigInt(10000)),
                 });
-                setLoading(true);
-                setShowModal(false);
-                message.success('支付成功，请联系管理入群！', 3000);
-                console.log(res, 'debug transfer');
+
+                if (Number(res) > 0) {
+                  setLoading(true);
+                  setShowModal(false);
+                  message.success(t('public.paySuccess'), 3000);
+                } else {
+                  message.error(t('public.payFail'), 3000);
+                }
               }
             });
             break;
@@ -123,19 +120,20 @@ export default function Header() {
             if (!window.ic.plug.agent) {
               await window.ic.plug.createAgent(PLUG_ARGS);
             } else {
-              setPayStatus('支付中.....');
+              setPayStatus(t('public.payProcess'));
               const ledger = LedgerCanister.create({ agent: window.ic.plug.agent });
 
               const res = await ledger.transfer({
-                to: AccountIdentifier.fromHex('8a69d6fde456748625f4b19c711bf1826b566d78500aa9d3344e014862c0ee6f'),
+                to: AccountIdentifier.fromHex('25e56160d21a451b2db18525f99df9c85a57cbf96386c0922aed47801e697884'),
                 amount: ICP.fromE8s(BigInt(10000)),
               });
-              console.log(res, 'debug transfer');
 
               if (Number(res) > 0) {
                 setLoading(true);
                 setShowModal(false);
-                message.success('支付成功，请联系管理入群！', 3000);
+                message.success(t('public.paySuccess'), 3000);
+              } else {
+                message.error(t('public.payFail'), 3000);
               }
             }
 
@@ -143,11 +141,6 @@ export default function Header() {
         }
       }
     })();
-
-    // window.ic.plug.agent
-    console.log('debug pay', 999);
-
-    // pay now
   };
 
   useEffect(() => {
@@ -161,10 +154,10 @@ export default function Header() {
       <div className="container max-w-8xl relative mx-auto">
         <div className="items-center flex flex-wrap">
           <div className="w-full lg:w-6/12 px-4 ml-auto mr-auto text-center">
-            <H2 color="white">demianDAO (🏴‍☠️,🏴‍☠️).</H2>
+            <H2 color="white">{t('home.title')}</H2>
 
             <div className="text-gray-200">
-              <LeadText color="gray-200">在DAOs中分享觀點與見聞，並更深度地參與內容分享。</LeadText>
+              <LeadText color="gray-200"> {t('home.content')} </LeadText>
             </div>
           </div>
         </div>
@@ -178,22 +171,27 @@ export default function Header() {
             onClick={e => setShowModal(true)}
             iconOnly={false}
             ripple="light">
-            加入DAOs
+            {t('home.join')}
           </Button>
 
           <Modal size="regular" active={showModal} toggler={() => setShowModal(false)}>
-            <ModalHeader toggler={() => setShowModal(false)}>Join demianDAO</ModalHeader>
+            <ModalHeader toggler={() => setShowModal(false)}>{t('home.joinModal')}</ModalHeader>
             <ModalBody>
-              <p className="text-base leading-relaxed text-gray-600 font-normal mb-3">
-                支付1000美元或等值ICP 即可入 DAOs,目前接受ICP支付。
+              <p className="text-base leading-relaxed text-gray-600 font-normal mb-3">{t('home.joinPayNotice')}</p>
+              <p className="text-base leading-relaxed text-green-700 font-normal mb-3">
+                {' '}
+                {t('home.joinIcpPrice')} {showPrice}
               </p>
-              <p className="text-base leading-relaxed text-green-700 font-normal mb-3">当前ICP价格：{showPrice}</p>
-              <p className="text-base leading-relaxed text-green-600 font-normal mb-3">应支付ICP数量：{curNumber}</p>
-              <p className="text-base leading-relaxed text-green-600 font-normal">当前账户余额：{ibalance}</p>
+              <p className="text-base leading-relaxed text-green-600 font-normal mb-3">
+                {t('home.joinIcpNumber')} {curNumber}
+              </p>
+              <p className="text-base leading-relaxed text-green-600 font-normal">
+                {t('public.accountBalance')} {ibalance}
+              </p>
             </ModalBody>
             <ModalFooter>
               <Button color="red" buttonType="link" onClick={e => setShowModal(false)} ripple="dark">
-                取消
+                {t('public.cancel')}
               </Button>
 
               <Button color="green" onClick={e => confirmPay(curNumber)} ripple="light">
