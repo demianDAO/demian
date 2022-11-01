@@ -100,6 +100,7 @@ export default function Header() {
               if (identity !== false) {
                 //ID is a already connected wallet!
                 // identity
+                // @ts-ignore
                 const ledger = LedgerCanister.create({ agent: new HttpAgent({ identity }) });
 
                 const res = await ledger.transfer({

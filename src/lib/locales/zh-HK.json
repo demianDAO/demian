@@ -55,7 +55,8 @@
   "footer": {
     "links": "有用的链接",
     "usefulLinks": "Useful Links",
-    "newsletter": "Newsletter"
+    "newsletter": "Newsletter",
+    "podcasts": "播客"
   },
   "public": {
     "accountBalance": "当前账户余额：",

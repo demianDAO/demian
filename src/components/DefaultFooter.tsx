@@ -19,7 +19,7 @@ export default function DefaultFooter() {
               </div>
               <div className="flex gap-2 mt-6 md:justify-start md:mb-0 mb-8 justify-center">
                 <a
-                  href="https://www.twitter.com/demiandao"
+                  href="https://www.twitter.com/demiandaos"
                   className="grid place-items-center bg-white text-blue-400 shadow-md font-normal h-10 w-10 items-center justify-center align-center rounded-full outline-none focus:outline-none"
                   target="_blank"
                   rel="noopener noreferrer">
@@ -38,6 +38,20 @@ export default function DefaultFooter() {
                   target="_blank"
                   rel="noopener noreferrer">
                   <Icon family="font-awesome" name="fab fa-telegram" />
+                </a>
+                <a
+                  href="https://discord.gg/9Ksp3adpWf"
+                  className="grid place-items-center bg-white text-gray-900 shadow-md font-normal h-10 w-10 items-center justify-center align-center rounded-full outline-none focus:outline-none"
+                  target="_blank"
+                  rel="noopener noreferrer">
+                  <Icon family="font-awesome" name="fab fa-discord" />
+                </a>
+                <a
+                  href="https://www.youtube.com/@kkdemian"
+                  className="grid place-items-center bg-white text-gray-900 shadow-md font-normal h-10 w-10 items-center justify-center align-center rounded-full outline-none focus:outline-none"
+                  target="_blank"
+                  rel="noopener noreferrer">
+                  <Icon family="font-awesome" name="fab fa-youtube" />
                 </a>
               </div>
             </div>
@@ -66,6 +80,15 @@ export default function DefaultFooter() {
                         {t('footer.newsletter')}
                       </a>
                     </li>
+                    <li>
+                      <a
+                        className="text-gray-700 hover:text-gray-900 block pb-2 text-sm"
+                        target="_blank"
+                        href="https://www.icpodcast.org/"
+                        rel="noreferrer">
+                        {t('footer.podcasts')}
+                      </a>
+                    </li>
                   </ul>
                 </div>
               </div>
@@ -75,7 +98,7 @@ export default function DefaultFooter() {
           <div className="flex flex-wrap items-center md:justify-between justify-center">
             <div className="w-full md:w-4/12 px-4 mx-auto text-center">
               <div className="text-sm text-gray-700 font-medium py-1">
-                Copyright © {new Date().getFullYear()} demianDAO.
+                Copyright © {new Date().getFullYear()} kkdemian.
               </div>
             </div>
           </div>

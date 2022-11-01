@@ -56,7 +56,8 @@
   "footer": {
     "links": "Useful Links",
     "usefulLinks": "Useful Links",
-    "newsletter": "Newsletter"
+    "newsletter": "Newsletter",
+    "podcasts": "Podcasts"
   },
   "public": {
     "accountBalance": "Current account balance:",

@@ -16,6 +16,7 @@ dfx start
 dfx deploy
 chmod -R 755 .dfx
 npm run dev
+dfx deploy --network ic -m reinstall assets
 ```
 
 ### Compiles and minifies for production

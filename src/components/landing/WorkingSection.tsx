@@ -22,6 +22,12 @@ export default function WorkingSection() {
           {t('home.sectionCourse')}
         </h1>
         <p className="lg:w-1/2 w-full leading-relaxed text-base">{t('home.sectionCourseDetail')} </p>
+        <p className="mt-2 text-2xl text-blue-500">
+          {' '}
+          <a href="https://www.youtube.com/@kkdemian" target="_blank" rel="noreferrer">
+            Learn Motoko
+          </a>{' '}
+        </p>
       </div>
       <div className="container max-w-7xl mx-auto px-4">
         <div className="flex flex-wrap relative z-50">
@@ -44,7 +50,7 @@ export default function WorkingSection() {
             <H4 color="gray"> {t('home.sectionCardDeploy')}</H4>
             <LeadText color="blueGray">{t('home.sectionCardHowtoDetail')}</LeadText>
             <LeadText color="blueGray">{t('home.sectionCardHowtoDesc')} </LeadText>
-            <a href="#pablo" className="font-medium text-light-blue-500 mt-2 inline-block">
+            <a href="https://www.internetcomputer.wiki/" className="font-medium text-light-blue-500 mt-2 inline-block">
               Read More
             </a>
           </div>
